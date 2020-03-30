@@ -62,4 +62,7 @@ public class Sprite extends Rect {
     public void resize (Rect worldBounds){
 
     }
+    public void update(float delta){
+
+    }
 }
