@@ -40,6 +40,7 @@ public class Ship extends Sprite {
         if (buff.sub(pos).len() > V_LEN) {
             pos.add(v);
         } else {
+            v.setZero();
             pos.set(touch);
         }
     }

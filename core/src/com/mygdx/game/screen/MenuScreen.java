@@ -14,7 +14,6 @@ import com.mygdx.game.sprites.Ship;
 public class MenuScreen extends BaseScreen {
     private Texture bg;
     private Background background;
-    private Vector2 pos;
     private Texture ships;
     private Ship ship;
 
@@ -26,16 +25,16 @@ public class MenuScreen extends BaseScreen {
             background = new Background(bg);
         } catch (GameException e) {
             e.printStackTrace();
+            throw new RuntimeException(e);
         }
         ships = new Texture("ship.png");
         try {
             ship = new Ship((ships));
         } catch (GameException e) {
             e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        pos = new Vector2();
-
-
+        ship.pos.set(0,-0.35f);
     }
 
     @Override
