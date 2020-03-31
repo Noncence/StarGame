@@ -12,25 +12,27 @@ public class Sprite extends Rect {
     protected TextureRegion[] regions;
     protected int frame;
 
-    public Sprite (TextureRegion region) throws GameException {
+    public Sprite(TextureRegion region) throws GameException {
         if (region == null) {
             throw new GameException("Region is null");
         }
         regions = new TextureRegion[1];
         regions[0] = region;
     }
-    public void setHeightProportion(float height){
+
+    public void setHeightProportion(float height) {
         setHeight(height);
         float aspect = regions[frame].getRegionWidth() / (float) regions[frame].getRegionHeight();
         setWidth(height * aspect);
     }
-    public void draw (SpriteBatch batch){
+
+    public void draw(SpriteBatch batch) {
         batch.draw(
                 regions[frame],
-                getLeft(),getBottom(),
-                halfWidth,halfHeight,
-                getWidth(),getHeight(),
-                scale,scale,
+                getLeft(), getBottom(),
+                halfWidth, halfHeight,
+                getWidth(), getHeight(),
+                scale, scale,
                 angle
         );
     }
@@ -50,16 +52,23 @@ public class Sprite extends Rect {
     public void setScale(float scale) {
         this.scale = scale;
     }
+
     public boolean touchDown(Vector2 touch, int pointer, int button) {
         return false;
     }
+
     public boolean touchUp(Vector2 touch, int pointer, int button) {
         return false;
     }
+
     public boolean touchDragged(Vector2 touch, int pointer) {
         return false;
     }
-    public void resize (Rect worldBounds){
+
+    public void resize(Rect worldBounds) {
+
+    }
+    public void update(float delta) {
 
     }
 }
