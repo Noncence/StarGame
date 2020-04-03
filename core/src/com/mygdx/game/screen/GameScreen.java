@@ -8,8 +8,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.base.BaseScreen;
 import com.mygdx.game.exception.GameException;
 import com.mygdx.game.math.Rect;
+import com.mygdx.game.pool.BulletPool;
 import com.mygdx.game.sprites.Background;
-import com.mygdx.game.sprites.Ship;
+import com.mygdx.game.sprites.MainShip;
 import com.mygdx.game.sprites.Star;
 
 
@@ -21,13 +22,15 @@ public class GameScreen extends BaseScreen {
     private Background background;
     private TextureAtlas atlas;
     private Star[] stars;
-    private Ship ship;
+    private MainShip ship;
+    private BulletPool bulletPool;
 
     @Override
     public void show() {
         super.show();
         bg = new Texture("textures/bg.jpg");
         atlas = new TextureAtlas(Gdx.files.internal("textures/mainAtlas.pack"));
+        bulletPool = new BulletPool();
         initSprites();
     }
 
@@ -35,6 +38,7 @@ public class GameScreen extends BaseScreen {
     public void render(float delta) {
         super.render(delta);
         update(delta);
+        freeAllDestroyed();
         draw();
     }
 
@@ -53,18 +57,17 @@ public class GameScreen extends BaseScreen {
         super.dispose();
         bg.dispose();
         atlas.dispose();
+        bulletPool.dispose();
     }
 
     @Override
     public boolean keyDown(int keycode) {
-        super.keyDown(keycode);
         ship.keyDown(keycode);
         return false;
     }
 
     @Override
     public boolean keyUp(int keycode) {
-        super.keyUp(keycode);
         ship.keyUp(keycode);
         return false;
     }
@@ -77,12 +80,13 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public boolean touchUp(Vector2 touch, int pointer, int button) {
-        return super.touchUp(touch, pointer, button);
+        ship.touchUp(touch,pointer,button);
+        return false;
     }
     private void initSprites() {
         try {
             background = new Background(bg);
-            ship = new Ship(atlas);
+            ship = new MainShip(atlas, bulletPool);
             stars = new Star[STAR_COUNT];
             for (int i = 0; i < STAR_COUNT; i++) {
                 stars[i] =  new Star(atlas);
@@ -96,6 +100,10 @@ public class GameScreen extends BaseScreen {
             star.update(delta);
         }
         ship.update(delta);
+        bulletPool.updateActiveSprites(delta);
+    }
+    public void freeAllDestroyed(){
+        bulletPool.freeAllDestroyActiveObject();
     }
     private void draw(){
         Gdx.gl.glClearColor(0, 1, 1, 1);
@@ -106,6 +114,7 @@ public class GameScreen extends BaseScreen {
             star.draw(batch);
         }
         ship.draw(batch);
+        bulletPool.drawActiveSprites(batch);
         batch.end();
     }
 }
