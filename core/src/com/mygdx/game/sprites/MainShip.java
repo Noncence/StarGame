@@ -1,7 +1,9 @@
 package com.mygdx.game.sprites;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -12,7 +14,7 @@ import com.mygdx.game.pool.BulletPool;
 
 public class MainShip extends Sprite {
 
-    private static final float SHIP_HEIGHT = 0.18f ;
+    private static final float SHIP_HEIGHT = 0.18f;
     private static final float BOTTOM_MARGIN = 0.03f;
     private static final int INVALID_POINTER = -1;
 
@@ -20,6 +22,11 @@ public class MainShip extends Sprite {
     private BulletPool bulletPool;
     private TextureRegion bulletRegion;
     private Vector2 bulletV;
+
+    private float interval = 0.14f;
+    private float timer;
+
+    private Sound bulletSound = Gdx.audio.newSound(Gdx.files.internal("sounds/laser.wav"));
 
     private final Vector2 v0;
     private final Vector2 v;
@@ -86,6 +93,11 @@ public class MainShip extends Sprite {
 
     @Override
     public void update(float delta) {
+        timer += delta;
+        if (timer > interval) {
+            shoot();
+            timer = 0f;
+        }
        pos.mulAdd(v, delta);
        if (getLeft() + halfWidth < worldBounds.getLeft()){
            setLeft(worldBounds.getLeft() - this.halfWidth);
@@ -140,7 +152,11 @@ public class MainShip extends Sprite {
     }
     public void shoot(){
         Bullet bullet = bulletPool.obtain();
-        bullet.set(this, bulletRegion, pos, bulletV, 0.03f, worldBounds,1);
+        bullet.set(this, bulletRegion, pos, bulletV, 0.028f, worldBounds,1);
+        bulletSound.play(0.3f);
+    }
+    public void dispose(){
+        bulletSound.dispose();
     }
     private void moveRight(){
         v.set(v0);
@@ -151,4 +167,5 @@ public class MainShip extends Sprite {
     private void stop(){
         v.setZero();
     }
+
 }

@@ -3,6 +3,7 @@ package com.mygdx.game.base;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Matrix4;
@@ -13,6 +14,7 @@ import com.mygdx.game.math.Rect;
 public abstract class BaseScreen implements Screen, InputProcessor {
 
     protected SpriteBatch batch;
+    protected Music fonMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/music.mp3"));
     private Rect screenBounds;
     private Rect worldBounds;
     private Rect glBounds;
@@ -58,17 +60,16 @@ public abstract class BaseScreen implements Screen, InputProcessor {
 
     @Override
     public void pause() {
-
+    fonMusic.pause();
     }
 
     @Override
     public void resume() {
-
+    fonMusic.play();
     }
 
     @Override
     public void hide() {
-
         dispose();
     }
 

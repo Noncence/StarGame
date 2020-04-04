@@ -10,6 +10,7 @@ import com.mygdx.game.exception.GameException;
 import com.mygdx.game.math.Rect;
 import com.mygdx.game.pool.BulletPool;
 import com.mygdx.game.sprites.Background;
+import com.mygdx.game.sprites.EnemyShip;
 import com.mygdx.game.sprites.MainShip;
 import com.mygdx.game.sprites.Star;
 
@@ -23,7 +24,9 @@ public class GameScreen extends BaseScreen {
     private TextureAtlas atlas;
     private Star[] stars;
     private MainShip ship;
+    private EnemyShip enemyShip;
     private BulletPool bulletPool;
+
 
     @Override
     public void show() {
@@ -50,6 +53,7 @@ public class GameScreen extends BaseScreen {
             star.resize(worldBounds);
         }
         ship.resize(worldBounds);
+        enemyShip.resize(worldBounds);
     }
 
     @Override
@@ -58,6 +62,8 @@ public class GameScreen extends BaseScreen {
         bg.dispose();
         atlas.dispose();
         bulletPool.dispose();
+        ship.dispose();
+        fonMusic.dispose();
     }
 
     @Override
@@ -91,6 +97,8 @@ public class GameScreen extends BaseScreen {
             for (int i = 0; i < STAR_COUNT; i++) {
                 stars[i] =  new Star(atlas);
             }
+            enemyShip = new EnemyShip(atlas);
+
         } catch (GameException e) {
             throw new RuntimeException(e);
         }
@@ -101,6 +109,7 @@ public class GameScreen extends BaseScreen {
         }
         ship.update(delta);
         bulletPool.updateActiveSprites(delta);
+        enemyShip.update(delta);
     }
     public void freeAllDestroyed(){
         bulletPool.freeAllDestroyActiveObject();
@@ -114,6 +123,7 @@ public class GameScreen extends BaseScreen {
             star.draw(batch);
         }
         ship.draw(batch);
+        enemyShip.draw(batch);
         bulletPool.drawActiveSprites(batch);
         batch.end();
     }

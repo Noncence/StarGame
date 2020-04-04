@@ -2,6 +2,7 @@ package com.mygdx.game.screen;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -36,6 +37,8 @@ public class MenuScreen extends BaseScreen {
         super.show();
         bg = new Texture("textures/bg.jpg");
         atlas = new TextureAtlas(Gdx.files.internal("textures/menuAtlas.pack"));
+        fonMusic.play();
+        fonMusic.setLooping(true);
         initSprites();
     }
 
@@ -69,7 +72,6 @@ public class MenuScreen extends BaseScreen {
         buttonExit.touchDown(touch, pointer, button);
         buttonPlay.touchDown(touch, pointer, button);
         return false;
-
     }
 
     @Override
