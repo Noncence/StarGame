@@ -36,6 +36,8 @@ public class MenuScreen extends BaseScreen {
         super.show();
         bg = new Texture("textures/bg.jpg");
         atlas = new TextureAtlas(Gdx.files.internal("textures/menuAtlas.pack"));
+        music.play();
+        music.setLooping(true);
         initSprites();
     }
 

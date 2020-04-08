@@ -3,6 +3,27 @@ mainAtlas.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+enemyShip
+  rotate: false
+  xy: 1, 633
+  size: 422, 372
+  orig: 422, 372
+  offset: 0, 0
+  index: -1
+enemyShip1
+  rotate: false
+  xy: 1, 253
+  size: 261, 378
+  orig: 261, 378
+  offset: 0, 0
+  index: -1
+enemyShip3
+  rotate: false
+  xy: 425, 647
+  size: 250, 358
+  orig: 250, 358
+  offset: 0, 0
+  index: -1
 bulletMainShip2
   rotate: false
   xy: 1, 1
@@ -10,23 +31,30 @@ bulletMainShip2
   orig: 250, 250
   offset: 0, 0
   index: -1
-bulletMainShip
+enemyShip2
   rotate: false
-  xy: 253, 90
-  size: 250, 161
-  orig: 250, 161
+  xy: 677, 690
+  size: 166, 315
+  orig: 166, 315
   offset: 0, 0
   index: -1
 myShip
   rotate: false
-  xy: 505, 51
+  xy: 264, 431
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
+bulletMainShip
+  rotate: false
+  xy: 264, 268
+  size: 250, 161
+  orig: 250, 161
+  offset: 0, 0
+  index: -1
 star
   rotate: false
-  xy: 253, 38
+  xy: 845, 955
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
