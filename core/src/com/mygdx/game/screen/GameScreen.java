@@ -12,6 +12,7 @@ import com.mygdx.game.math.Rect;
 import com.mygdx.game.pool.BulletPool;
 import com.mygdx.game.pool.EnemyPool;
 import com.mygdx.game.sprites.Background;
+import com.mygdx.game.sprites.Bullet;
 import com.mygdx.game.sprites.Enemy;
 import com.mygdx.game.sprites.MainShip;
 import com.mygdx.game.sprites.Star;
@@ -135,6 +136,12 @@ public class GameScreen extends BaseScreen {
             float minDist = enemy.getHalfWidth() + mainShip.getHalfWidth();
             if (mainShip.pos.dst(enemy.pos) < minDist){
                 enemy.destroy();
+            }
+            List<Bullet> bulletList = bulletPool.getActiveObject();
+            for (Bullet bullet: bulletList) {
+                if (bullet.getOwner() == mainShip && !bullet.isOutside(enemy)){
+                    enemy.destroy();
+                }
             }
         }
     }

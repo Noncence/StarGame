@@ -8,6 +8,7 @@ import com.mygdx.game.math.Rect;
 import com.mygdx.game.pool.BulletPool;
 import com.mygdx.game.sprites.Bullet;
 
+
 public abstract class Ship extends Sprite {
     protected Rect worldBounds;
     protected BulletPool bulletPool;
@@ -37,7 +38,7 @@ public abstract class Ship extends Sprite {
     public void update(float delta) {
         pos.mulAdd(v, delta);
         reloadTimer += delta;
-        if (reloadTimer >= reloadInterval){
+        if (reloadTimer >= reloadInterval && getTop() <= worldBounds.getTop()){
             reloadTimer = 0f;
             shoot();
         }
@@ -48,5 +49,4 @@ public abstract class Ship extends Sprite {
         bullet.set(this, bulletRegion, pos, bulletV, bulletHeight, worldBounds, damage);
         shootSound.play(0.3f);
     }
-
 }
