@@ -7,18 +7,29 @@ import com.mygdx.game.base.Ship;
 import com.mygdx.game.math.Rect;
 import com.mygdx.game.pool.BulletPool;
 
+
 public class Enemy extends Ship {
+    private final Vector2 fastV;
+
+
     public Enemy(BulletPool bulletPool, Rect worldBounds) {
     this.bulletPool = bulletPool;
     this.worldBounds = worldBounds;
     v = new Vector2();
     v0 = new Vector2();
     bulletV = new Vector2();
+    fastV = new Vector2(0, -0.3f);
     }
 
     @Override
     public void update(float delta) {
         super.update(delta);
+        if (getTop() >= worldBounds.getTop()){
+            v.set(fastV);
+
+        } else {
+            v.set(v0);
+        }
         if (getBottom() <= worldBounds.getBottom()){
             destroy();
         }
@@ -48,6 +59,5 @@ public class Enemy extends Ship {
         this.hp = hp;
         this.v.set(v0);
         setHeightProportion(height);
-
     }
 }

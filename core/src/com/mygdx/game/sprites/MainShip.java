@@ -37,6 +37,10 @@ public class MainShip extends Ship {
         hp = 100;
     }
 
+    public MainShip(TextureAtlas atlas) throws GameException {
+        super(atlas.findRegion("myShip"),1,1,1);
+    }
+
     @Override
     public boolean touchDown(Vector2 touch, int pointer, int button) {
        if (touch.x < worldBounds.pos.x){

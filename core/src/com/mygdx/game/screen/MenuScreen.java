@@ -12,6 +12,7 @@ import com.mygdx.game.math.Rect;
 import com.mygdx.game.sprites.Background;
 import com.mygdx.game.sprites.ButtonExit;
 import com.mygdx.game.sprites.ButtonPlay;
+import com.mygdx.game.sprites.MainShip;
 import com.mygdx.game.sprites.Star;
 
 
@@ -19,8 +20,9 @@ public class MenuScreen extends BaseScreen {
     private static final int STAR_COUNT = 256;
 
     private final Game game;
-
+    private MainShip mainShip;
     private TextureAtlas atlas;
+    private TextureAtlas atlas2;
     private Texture bg;
     private Background background;
     private ButtonExit buttonExit;
@@ -36,8 +38,10 @@ public class MenuScreen extends BaseScreen {
         super.show();
         bg = new Texture("textures/bg.jpg");
         atlas = new TextureAtlas(Gdx.files.internal("textures/menuAtlas.pack"));
+        atlas2 = new TextureAtlas(Gdx.files.internal("textures/mainAtlas.pack"));
         music.play();
         music.setLooping(true);
+
         initSprites();
     }
 
@@ -62,6 +66,7 @@ public class MenuScreen extends BaseScreen {
         for (Star star : stars) {
             star.resize(worldBounds);
         }
+        mainShip.resize(worldBounds);
         buttonExit.resize(worldBounds);
         buttonPlay.resize(worldBounds);
     }
@@ -84,6 +89,7 @@ public class MenuScreen extends BaseScreen {
     private void initSprites() {
         try {
             background = new Background(bg);
+            mainShip = new MainShip(atlas2);
             stars = new Star[STAR_COUNT];
             for (int i = 0; i < STAR_COUNT; i++) {
                 stars[i] =  new Star(atlas);
@@ -104,6 +110,7 @@ public class MenuScreen extends BaseScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         background.draw(batch);
+        mainShip.draw(batch);
         for (Star star : stars) {
             star.draw(batch);
         }
