@@ -5,16 +5,16 @@ filter: Nearest,Nearest
 repeat: none
 exit
   rotate: false
-  xy: 1, 53
-  size: 256, 256
-  orig: 256, 256
+  xy: 1, 155
+  size: 500, 100
+  orig: 500, 100
   offset: 0, 0
   index: -1
 play
   rotate: false
-  xy: 259, 53
-  size: 256, 256
-  orig: 256, 256
+  xy: 1, 53
+  size: 500, 100
+  orig: 500, 100
   offset: 0, 0
   index: -1
 star

@@ -141,6 +141,7 @@ public class GameScreen extends BaseScreen {
             for (Bullet bullet: bulletList) {
                 if (bullet.getOwner() == mainShip && !bullet.isOutside(enemy)){
                     enemy.destroy();
+                    bullet.destroy();
                 }
             }
         }
