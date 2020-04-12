@@ -48,7 +48,6 @@ public abstract class Ship extends Sprite {
         if (damageAnimateTimer >= DAMAGE_ANIMATE_INTERVAL) {
             frame = 0;
         }
-
     }
     @Override
     public void destroy() {
@@ -72,7 +71,7 @@ public abstract class Ship extends Sprite {
 
     protected void autoShot(float delta ){
         reloadTimer += delta;
-        if (reloadTimer >= reloadInterval && getTop() <= worldBounds.getTop()){
+        if (reloadTimer >= reloadInterval){
             reloadTimer = 0f;
             shoot();
         }
