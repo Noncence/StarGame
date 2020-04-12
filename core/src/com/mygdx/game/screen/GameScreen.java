@@ -28,15 +28,10 @@ import java.util.List;
 
 public class GameScreen extends BaseScreen {
 
-    public GameScreen(Game game) {
-        this.game = game;
-    }
 
     private enum State {PLAYING, PAUSE, GAME_OVER}
 
     private State state;
-    private final Game game;
-
     private static final int STAR_COUNT = 64;
 
     private Texture bg;
@@ -134,8 +129,9 @@ public class GameScreen extends BaseScreen {
     public boolean touchDown(Vector2 touch, int pointer, int button) {
         if (state == State.PLAYING) {
             mainShip.touchDown(touch, pointer, button);
+        } else if (state == State.GAME_OVER){
+            buttonNewGame.touchDown(touch, pointer, button);
         }
-        buttonNewGame.touchDown(touch, pointer, button);
         return false;
     }
 
@@ -143,9 +139,17 @@ public class GameScreen extends BaseScreen {
     public boolean touchUp(Vector2 touch, int pointer, int button) {
         if (state == State.PLAYING) {
             mainShip.touchUp(touch, pointer, button);
+        } else if (state == State.GAME_OVER) {
+            buttonNewGame.touchUp(touch, pointer, button);
         }
-        buttonNewGame.touchUp(touch, pointer, button);
         return false;
+    }
+    public void resetAll(){
+        state = State.PLAYING;
+        mainShip.resetAll();
+        bulletPool.dispose();
+        enemyPool.dispose();
+        freeAllDestroyed();
     }
     private void initSprites() {
         try {
@@ -156,7 +160,7 @@ public class GameScreen extends BaseScreen {
             }
             mainShip = new MainShip(atlas, bulletPool, explosionPool, laserSound);
             gameOver = new GameOver(atlas);
-            buttonNewGame = new ButtonNewGame(atlas, game);
+            buttonNewGame = new ButtonNewGame(atlas, this);
             enemy0 = new Sprite(atlas.findRegion("enemy0"));
         } catch (GameException e) {
             throw new RuntimeException(e);

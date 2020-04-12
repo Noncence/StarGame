@@ -1,6 +1,6 @@
 package com.mygdx.game.sprites;
 
-import com.badlogic.gdx.Game;
+
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.mygdx.game.base.ScaledButton;
 import com.mygdx.game.exception.GameException;
@@ -10,11 +10,11 @@ import com.mygdx.game.screen.GameScreen;
 
 public class ButtonNewGame extends ScaledButton {
 
-    private final Game game;
+    private final GameScreen gameScreen;
 
-    public ButtonNewGame(TextureAtlas atlas, Game game) throws GameException {
+    public ButtonNewGame(TextureAtlas atlas, GameScreen gameScreen) throws GameException {
         super(atlas.findRegion("button_new_game"));
-        this.game= game;
+        this.gameScreen = gameScreen;
 
     }
 
@@ -26,6 +26,6 @@ public class ButtonNewGame extends ScaledButton {
 
     @Override
     public void action() {
-       game.setScreen(new GameScreen(game));
+       gameScreen.resetAll();
     }
 }
