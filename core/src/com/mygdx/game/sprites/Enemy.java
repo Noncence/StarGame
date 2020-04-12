@@ -6,29 +6,31 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.base.Ship;
 import com.mygdx.game.math.Rect;
 import com.mygdx.game.pool.BulletPool;
+import com.mygdx.game.pool.ExplosionPool;
 
 
 public class Enemy extends Ship {
     private final Vector2 fastV;
 
 
-    public Enemy(BulletPool bulletPool, Rect worldBounds) {
+    public Enemy(BulletPool bulletPool, ExplosionPool explosionPool, Rect worldBounds) {
     this.bulletPool = bulletPool;
+    this.explosionPool = explosionPool;
     this.worldBounds = worldBounds;
     v = new Vector2();
     v0 = new Vector2();
     bulletV = new Vector2();
+    bulletPos = new Vector2();
     fastV = new Vector2(0, -0.3f);
     }
 
     @Override
     public void update(float delta) {
         super.update(delta);
-        if (getTop() >= worldBounds.getTop()){
-            v.set(fastV);
-
-        } else {
+        bulletPos.set(pos.x, pos.y - getHalfHeight());
+        if (getTop() <= worldBounds.getTop()){
             v.set(v0);
+            autoShot(delta);
         }
         if (getBottom() <= worldBounds.getBottom()){
             destroy();
@@ -57,7 +59,13 @@ public class Enemy extends Ship {
         this.reloadTimer = reloadInterval;
         this.shootSound = shootSound;
         this.hp = hp;
-        this.v.set(v0);
+        this.v.set(fastV);
         setHeightProportion(height);
+    }
+    public boolean isBulletCollision(Rect bullet){
+        return !(bullet.getRight() < getLeft()
+                || bullet.getLeft() > getRight()
+                || bullet.getBottom() > getTop()
+                || bullet.getTop() < pos.y);
     }
 }

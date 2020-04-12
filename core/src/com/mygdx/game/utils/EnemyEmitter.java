@@ -15,7 +15,7 @@ public class EnemyEmitter  {
     private static final float ENEMY_SMALL_BULLET_VY = -0.3f;
     private static final int  ENEMY_SMALL_DAMAGE = 1;
     private static final float ENEMY_SMALL_RELOAD_INTERVAL = 3f;
-    private static final int  ENEMY_SMALL_HP = 1;
+    private static final int  ENEMY_SMALL_HP = 2;
 
     private static final float ENEMY_MEDIUM_HEIGHT = 0.25f;
     private static final float ENEMY_MEDIUM_BULLET_HEIGHT = 0.12f;
@@ -36,7 +36,7 @@ public class EnemyEmitter  {
 
     private TextureRegion bulletRegion;
 
-    private float generateInterval = 4f;
+    private float generateInterval = 2f;
     private float generateTimer;
 
     private final TextureRegion[] enemySmallRegion;
@@ -55,14 +55,14 @@ public class EnemyEmitter  {
         this.enemyPool = enemyPool;
         this.bulletRegion = atlas.findRegion("bulletMainShip2");
         TextureRegion enemy0 = atlas.findRegion("enemyShip2");
-        this.enemySmallRegion = Regions.split(enemy0, 1, 1, 1);
-        TextureRegion enemy1 = atlas.findRegion("enemyShip3");
-        this.enemyMediumRegion = Regions.split(enemy1, 1, 1, 1);
+        this.enemySmallRegion = Regions.split(enemy0, 1, 2, 2);
+        TextureRegion enemy1 = atlas.findRegion("enemyShip");
+        this.enemyMediumRegion = Regions.split(enemy1, 1, 2, 2);
         TextureRegion enemy2 = atlas.findRegion("enemyShip1");
-        this.enemyBigRegion = Regions.split(enemy2, 1, 1, 1);
+        this.enemyBigRegion = Regions.split(enemy2, 1, 2, 2);
         this.enemySmallV = new Vector2(0, -0.2f);
-        this.enemyMediumV = new Vector2(0, -0.03f);
-        this.enemyBigV = new Vector2(0, -0.008f);
+        this.enemyMediumV = new Vector2(0, -0.04f);
+        this.enemyBigV = new Vector2(0, -0.01f);
     }
     public void generate(float delta){
         generateTimer += delta;

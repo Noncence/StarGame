@@ -1,6 +1,7 @@
 package com.mygdx.game.base;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.exception.GameException;
 
 import java.util.ArrayList;
 import java.util.List;

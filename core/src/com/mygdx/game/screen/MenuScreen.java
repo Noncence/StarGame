@@ -22,12 +22,12 @@ public class MenuScreen extends BaseScreen {
     private final Game game;
     private MainShip mainShip;
     private TextureAtlas atlas;
-    private TextureAtlas atlas2;
     private Texture bg;
     private Background background;
     private ButtonExit buttonExit;
     private ButtonPlay buttonPlay;
     private Star[] stars;
+
 
     public MenuScreen(Game game) {
         this.game = game;
@@ -38,10 +38,8 @@ public class MenuScreen extends BaseScreen {
         super.show();
         bg = new Texture("textures/bg.jpg");
         atlas = new TextureAtlas(Gdx.files.internal("textures/menuAtlas.pack"));
-        atlas2 = new TextureAtlas(Gdx.files.internal("textures/mainAtlas.pack"));
         music.play();
         music.setLooping(true);
-
         initSprites();
     }
 
@@ -89,7 +87,7 @@ public class MenuScreen extends BaseScreen {
     private void initSprites() {
         try {
             background = new Background(bg);
-            mainShip = new MainShip(atlas2);
+            mainShip = new MainShip(atlas);
             stars = new Star[STAR_COUNT];
             for (int i = 0; i < STAR_COUNT; i++) {
                 stars[i] =  new Star(atlas);
@@ -104,6 +102,8 @@ public class MenuScreen extends BaseScreen {
         for (Star star : stars) {
             star.update(delta);
         }
+        mainShip.pos.set(0, 0.15f);
+        mainShip.setHeightProportion(0.35f);
     }
     private void draw (){
         Gdx.gl.glClearColor(0, 1, 1, 1);

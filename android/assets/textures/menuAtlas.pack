@@ -3,23 +3,30 @@ menuAtlas.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+myShip
+  rotate: false
+  xy: 1, 205
+  size: 800, 804
+  orig: 800, 804
+  offset: 0, 0
+  index: -1
 exit
   rotate: false
-  xy: 1, 155
+  xy: 1, 103
   size: 500, 100
   orig: 500, 100
   offset: 0, 0
   index: -1
 play
   rotate: false
-  xy: 1, 53
+  xy: 1, 1
   size: 500, 100
   orig: 500, 100
   offset: 0, 0
   index: -1
 star
   rotate: false
-  xy: 1, 1
+  xy: 803, 959
   size: 50, 50
   orig: 50, 50
   offset: 0, 0

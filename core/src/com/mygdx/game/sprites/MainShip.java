@@ -9,12 +9,14 @@ import com.mygdx.game.base.Ship;
 import com.mygdx.game.exception.GameException;
 import com.mygdx.game.math.Rect;
 import com.mygdx.game.pool.BulletPool;
+import com.mygdx.game.pool.ExplosionPool;
 
 public class MainShip extends Ship {
 
     private static final float SHIP_HEIGHT = 0.18f ;
     private static final float BOTTOM_MARGIN = 0.03f;
     private static final int INVALID_POINTER = -1;
+    private static final int HP = 10;
 
     private boolean pressedLeft;
     private boolean pressedRight;
@@ -22,19 +24,21 @@ public class MainShip extends Ship {
     private int leftPointer = INVALID_POINTER;
     private int rightPointer = INVALID_POINTER;
 
-    public MainShip(TextureAtlas atlas, BulletPool bulletPool, Sound shootSound) throws GameException {
-        super(atlas.findRegion("myShip"),1,1,1);
+    public MainShip(TextureAtlas atlas, BulletPool bulletPool, ExplosionPool explosionPool, Sound shootSound) throws GameException {
+        super(atlas.findRegion("myShip"),1,2,2);
         this.bulletPool = bulletPool;
         this.shootSound = shootSound;
+        this.explosionPool = explosionPool;
         bulletRegion = atlas.findRegion("bulletMainShip");
         bulletV = new Vector2(0, 0.5f);
+        bulletPos = new Vector2();
         v0 = new Vector2(0.5f,0);
         v = new Vector2();
-        reloadInterval = 0.15f;
+        reloadInterval = 0.20f;
         reloadTimer = reloadInterval;
         bulletHeight = 0.03f;
         damage = 1;
-        hp = 100;
+        hp = HP;
     }
 
     public MainShip(TextureAtlas atlas) throws GameException {
@@ -89,6 +93,8 @@ public class MainShip extends Ship {
     @Override
     public void update(float delta) {
         super.update(delta);
+        bulletPos.set(pos.x, pos.y + getHalfHeight());
+        autoShot(delta);
        if (getLeft() + halfWidth < worldBounds.getLeft()){
            setLeft(worldBounds.getLeft() - this.halfWidth);
            stop();
@@ -138,7 +144,12 @@ public class MainShip extends Ship {
         }
         return false;
     }
-
+    public boolean isBulletCollision(Rect bullet){
+        return !(bullet.getRight() < getLeft()
+                || bullet.getLeft() > getRight()
+                || bullet.getBottom() > pos.y
+                || bullet.getTop() < getBottom());
+    }
     private void moveRight(){
         v.set(v0);
     }
