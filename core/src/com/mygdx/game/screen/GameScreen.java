@@ -1,5 +1,6 @@
 package com.mygdx.game.screen;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
@@ -7,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.base.BaseScreen;
+import com.mygdx.game.base.Sprite;
 import com.mygdx.game.exception.GameException;
 import com.mygdx.game.math.Rect;
 import com.mygdx.game.pool.BulletPool;
@@ -14,6 +16,7 @@ import com.mygdx.game.pool.EnemyPool;
 import com.mygdx.game.pool.ExplosionPool;
 import com.mygdx.game.sprites.Background;
 import com.mygdx.game.sprites.Bullet;
+import com.mygdx.game.sprites.ButtonNewGame;
 import com.mygdx.game.sprites.Enemy;
 import com.mygdx.game.sprites.GameOver;
 import com.mygdx.game.sprites.MainShip;
@@ -25,19 +28,21 @@ import java.util.List;
 
 public class GameScreen extends BaseScreen {
 
+
     private enum State {PLAYING, PAUSE, GAME_OVER}
 
     private State state;
     private static final int STAR_COUNT = 64;
 
     private Texture bg;
+    private Sprite enemy0;
     private Background background;
-
     private TextureAtlas atlas;
 
     private Star[] stars;
     private MainShip mainShip;
     private GameOver gameOver;
+    private ButtonNewGame buttonNewGame;
 
     private BulletPool bulletPool;
     private EnemyPool enemyPool;
@@ -63,6 +68,9 @@ public class GameScreen extends BaseScreen {
         enemyEmitter = new EnemyEmitter(atlas, enemyPool, worldBounds, bulletSound);
         initSprites();
         state = State.PLAYING;
+
+        enemy0.setHeightProportion(0.3f);
+        enemy0.pos.set(0, worldBounds.getBottom() + -0.2f);
     }
 
     @Override
@@ -83,6 +91,8 @@ public class GameScreen extends BaseScreen {
         }
         mainShip.resize(worldBounds);
         gameOver.resize(worldBounds);
+        buttonNewGame.resize(worldBounds);
+        enemy0.resize(worldBounds);
     }
 
     @Override
@@ -97,7 +107,6 @@ public class GameScreen extends BaseScreen {
         bulletSound.dispose();
         explosionSound.dispose();
         music.dispose();
-
     }
 
     @Override
@@ -120,6 +129,8 @@ public class GameScreen extends BaseScreen {
     public boolean touchDown(Vector2 touch, int pointer, int button) {
         if (state == State.PLAYING) {
             mainShip.touchDown(touch, pointer, button);
+        } else if (state == State.GAME_OVER){
+            buttonNewGame.touchDown(touch, pointer, button);
         }
         return false;
     }
@@ -128,8 +139,17 @@ public class GameScreen extends BaseScreen {
     public boolean touchUp(Vector2 touch, int pointer, int button) {
         if (state == State.PLAYING) {
             mainShip.touchUp(touch, pointer, button);
+        } else if (state == State.GAME_OVER) {
+            buttonNewGame.touchUp(touch, pointer, button);
         }
         return false;
+    }
+    public void resetAll(){
+        state = State.PLAYING;
+        mainShip.resetAll();
+        bulletPool.dispose();
+        enemyPool.dispose();
+        freeAllDestroyed();
     }
     private void initSprites() {
         try {
@@ -140,6 +160,8 @@ public class GameScreen extends BaseScreen {
             }
             mainShip = new MainShip(atlas, bulletPool, explosionPool, laserSound);
             gameOver = new GameOver(atlas);
+            buttonNewGame = new ButtonNewGame(atlas, this);
+            enemy0 = new Sprite(atlas.findRegion("enemy0"));
         } catch (GameException e) {
             throw new RuntimeException(e);
         }
@@ -215,6 +237,8 @@ public class GameScreen extends BaseScreen {
                 break;
             case GAME_OVER:
                 gameOver.draw(batch);
+                buttonNewGame.draw(batch);
+                enemy0.draw(batch);
                 break;
         }
         explosionPool.drawActiveSprites(batch);

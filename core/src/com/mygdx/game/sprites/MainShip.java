@@ -16,7 +16,7 @@ public class MainShip extends Ship {
     private static final float SHIP_HEIGHT = 0.18f ;
     private static final float BOTTOM_MARGIN = 0.03f;
     private static final int INVALID_POINTER = -1;
-    private static final int HP = 1000;
+    private static final int HP = 1;
 
     private boolean pressedLeft;
     private boolean pressedRight;
@@ -106,7 +106,7 @@ public class MainShip extends Ship {
     }
 
     public boolean keyDown(int keycode) {
-   switch (keycode){
+    switch (keycode){
        case Input.Keys.A:
        case Input.Keys.LEFT:
            pressedLeft = true;
@@ -149,6 +149,13 @@ public class MainShip extends Ship {
                 || bullet.getLeft() > getRight()
                 || bullet.getBottom() > pos.y
                 || bullet.getTop() < getBottom());
+    }
+    public void resetAll(){
+        flushDestroy();
+        hp = 1;
+        stop();
+        frame = 0;
+        pos.set(0, -0.38f);
     }
     private void moveRight(){
         v.set(v0);
