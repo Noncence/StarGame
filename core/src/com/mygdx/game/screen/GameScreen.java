@@ -23,6 +23,7 @@ import com.mygdx.game.sprites.Enemy;
 import com.mygdx.game.sprites.GameOver;
 import com.mygdx.game.sprites.MainShip;
 import com.mygdx.game.sprites.Star;
+import com.mygdx.game.sprites.TrackStar;
 import com.mygdx.game.utils.EnemyEmitter;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class GameScreen extends BaseScreen {
     private Background background;
     private TextureAtlas atlas;
 
-    private Star[] stars;
+    private TrackStar[] stars;
     private MainShip mainShip;
     private GameOver gameOver;
     private ButtonNewGame buttonNewGame;
@@ -75,6 +76,7 @@ public class GameScreen extends BaseScreen {
         music = Gdx.audio.newMusic(Gdx.files.internal("sounds/music.mp3"));
         music.play();
         music.setLooping(true);
+        stars = new TrackStar[STAR_COUNT];
         laserSound = Gdx.audio.newSound(Gdx.files.internal("sounds/laser.wav"));
         bulletSound = Gdx.audio.newSound(Gdx.files.internal("sounds/bullet.wav"));
         explosionSound = Gdx.audio.newSound(Gdx.files.internal("sounds/explosion.wav"));
@@ -192,11 +194,10 @@ public class GameScreen extends BaseScreen {
     private void initSprites() {
         try {
             background = new Background(bg);
-            stars = new Star[STAR_COUNT];
-            for (int i = 0; i < STAR_COUNT; i++) {
-                stars[i] =  new Star(atlas);
-            }
             mainShip = new MainShip(atlas, bulletPool, explosionPool, laserSound);
+            for (int i = 0; i < STAR_COUNT; i++) {
+                stars[i] = new TrackStar(atlas, mainShip.getV());
+            }
             gameOver = new GameOver(atlas);
             buttonNewGame = new ButtonNewGame(atlas, this);
             enemy0 = new Sprite(atlas.findRegion("enemy0"));
