@@ -31,13 +31,6 @@ public class EnemyEmitter  {
     private static final float ENEMY_BIG_RELOAD_INTERVAL = 1f;
     private static final int  ENEMY_BIG_HP = 10;
 
-    private static final float ENEMY_BOSS_HEIGHT = 0.3f;
-    private static final float ENEMY_BOSS_BULLET_HEIGHT = 0.03f;
-    private static final float ENEMY_BOSS_BULLET_VY = -0.4f;
-    private static final int  ENEMY_BOSS_DAMAGE = 12;
-    private static final float ENEMY_BOSS_RELOAD_INTERVAL = 1f;
-    private static final int  ENEMY_BOSS_HP = 30;
-
     private Rect worldBounds;
     private Sound shootSound;
 
@@ -49,12 +42,11 @@ public class EnemyEmitter  {
     private final TextureRegion[] enemySmallRegion;
     private final TextureRegion[] enemyMediumRegion;
     private final TextureRegion[] enemyBigRegion;
-    private final TextureRegion[] enemyBossRegion;
+
 
     private final Vector2 enemySmallV;
     private final Vector2 enemyMediumV;
     private final Vector2 enemyBigV;
-    private final Vector2 enemyBossV;
 
     private final EnemyPool enemyPool;
 
@@ -71,12 +63,11 @@ public class EnemyEmitter  {
         this.enemyMediumRegion = Regions.split(enemy1, 1, 2, 2);
         TextureRegion enemy2 = atlas.findRegion("enemyShip1");
         this.enemyBigRegion = Regions.split(enemy2, 1, 2, 2);
-        TextureRegion enemy3 = atlas.findRegion("enemy");
-        this.enemyBossRegion = Regions.split(enemy3, 1, 2, 2);
+
         this.enemySmallV = new Vector2(0, -0.2f);
         this.enemyMediumV = new Vector2(0, -0.04f);
         this.enemyBigV = new Vector2(0, -0.01f);
-        this.enemyBossV = new Vector2(0, -0.005f);
+
     }
     public void generate(float delta, int frags){
         level = frags / 10 + 1;
@@ -85,9 +76,6 @@ public class EnemyEmitter  {
             generateTimer = 0;
             Enemy enemy = enemyPool.obtain();
             float type = (float)Math.random();
-            if (frags == 30){
-                type = 777;
-            }
             if (type < 0.7f) {
                 enemy.set(
                         enemySmallRegion,
@@ -126,19 +114,6 @@ public class EnemyEmitter  {
                         shootSound,
                         ENEMY_BIG_HP,
                         ENEMY_BIG_HEIGHT
-                );
-            } else if (type == 777){
-                enemy.set(
-                        enemyBossRegion,
-                        enemyBossV,
-                        bulletRegion,
-                        ENEMY_BOSS_BULLET_HEIGHT,
-                        ENEMY_BOSS_BULLET_VY,
-                        ENEMY_BOSS_DAMAGE *  level,
-                        ENEMY_BOSS_RELOAD_INTERVAL,
-                        shootSound,
-                        ENEMY_BOSS_HP,
-                        ENEMY_BOSS_HEIGHT
                 );
             }
 
