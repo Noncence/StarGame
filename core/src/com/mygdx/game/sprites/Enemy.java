@@ -10,8 +10,8 @@ import com.mygdx.game.pool.ExplosionPool;
 
 
 public class Enemy extends Ship {
-    private final Vector2 fastV;
 
+    private final Vector2 fastV;
 
     public Enemy(BulletPool bulletPool, ExplosionPool explosionPool, Rect worldBounds) {
     this.bulletPool = bulletPool;

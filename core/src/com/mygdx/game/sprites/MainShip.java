@@ -16,7 +16,7 @@ public class MainShip extends Ship {
     private static final float SHIP_HEIGHT = 0.18f ;
     private static final float BOTTOM_MARGIN = 0.03f;
     private static final int INVALID_POINTER = -1;
-    private static final int HP = 1;
+    private static final int HP = 100;
 
     private boolean pressedLeft;
     private boolean pressedRight;
@@ -150,12 +150,17 @@ public class MainShip extends Ship {
                 || bullet.getBottom() > pos.y
                 || bullet.getTop() < getBottom());
     }
+
     public void resetAll(){
         flushDestroy();
-        hp = 1;
+        hp = HP;
+        pressedRight = false;
+        pressedLeft = false;
+        leftPointer = INVALID_POINTER;
+        rightPointer = INVALID_POINTER;
         stop();
         frame = 0;
-        pos.set(0, -0.38f);
+        pos.x = 0;
     }
     private void moveRight(){
         v.set(v0);
