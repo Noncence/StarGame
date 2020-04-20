@@ -9,10 +9,9 @@ import com.mygdx.game.math.Rnd;
 
 public class Star extends Sprite {
     private static final  float HEIGHT = 0.03f;
-
+    protected final Vector2 v;
     private float animatedInterval = 0.6f;
     private float animatedTimer;
-    private Vector2 v;
     private Rect worldBounds;
 
     public Star(TextureAtlas atlas) throws GameException {
@@ -35,20 +34,28 @@ public class Star extends Sprite {
     @Override
     public void update(float delta) {
         pos.mulAdd(v, delta);
-        scale += 0.02f;
+        checkBounds();
         animatedTimer += delta;
         if (animatedTimer >= animatedInterval){
             animatedTimer = 0;
-            scale = 1f;
+            setHeightProportion(HEIGHT);
+        } else {
+            setHeightProportion(getHeight() + 0.0001f);
         }
-        if (getTop() < worldBounds.getBottom()) {
-            setBottom(worldBounds.getTop());
+
+    }
+    public void checkBounds() {
+        if (getRight() < worldBounds.getLeft()) {
+            setLeft(worldBounds.getRight());
         }
         if (getLeft() > worldBounds.getRight()) {
             setRight(worldBounds.getLeft());
         }
-        if (getRight() < worldBounds.getLeft()) {
-            setRight(worldBounds.getRight());
+        if (getTop() < worldBounds.getBottom()) {
+            setBottom(worldBounds.getTop());
+        }
+        if (getBottom() > worldBounds.getTop()) {
+            setTop(worldBounds.getBottom());
         }
     }
 }
